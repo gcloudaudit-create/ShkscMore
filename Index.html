@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ShkscMore - Glory Edition | Quiz, Suggestions & Social Platform</title>
+    
+    <!-- SEO & Search Console Verification Meta Tags -->
+    <meta name="description" content="ShkscMore Glory Platform - কুইজ খেলুন, জ্ঞান অর্জন করুন, শিক্ষামূলক সাজেশন ও নোটস আনলক করুন।">
+    <!-- Google Search Console ট্যাগটি পাওয়ার পর নিচের লাইনের কমেন্ট তুলে কোডটি বসাবেন -->
+    <!-- <meta name="google-site-verification" content="YOUR_SEARCH_CONSOLE_CODE_HERE" /> -->
+
+    <!-- Google AdSense Auto Ads Script -->
+    <!-- আপনার AdSense অ্যাকাউন্ট অনুমোদিত হলে Publisher ID (ca-pub-XXXXXXXXXXXXXXXX) পরিবর্তন করে নিচের কমেন্টটি তুলে দেবেন -->
+    <!--
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+     crossorigin="anonymous"></script>
+    -->
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            900: '#312e81',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+            background-color: #030712;
+            color: #f9fafb;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(31, 41, 55, 0.5);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.35); }
+            50% { box-shadow: 0 0 25px rgba(99, 102, 241, 0.75); }
+        }
+
+        .glow-btn { animation: pulse-glow 3s infinite; }
+        .step-enter { animation: slideIn 0.2s ease-out forwards; }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <!-- Firebase Realtime Database Integration (glory-530b4) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, ref, set, get, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBD6avBShoqtrPZa6GSXUFBuiitHmm-Zqc",
+            authDomain: "glory-530b4.firebaseapp.com",
+            databaseURL: "https://glory-530b4-default-rtdb.firebaseio.com",
+            projectId: "glory-530b4",
+            storageBucket: "glory-530b4.firebasestorage.app",
+            messagingSenderId: "574744983610",
+            appId: "1:574744983610:web:c7d2057b65e061889ddd03",
+            measurementId: "G-XS50JNLZ8V"
+        };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getDatabase(app);
+            window.db = db;
+            window.fbRef = ref;
+            window.fbSet = set;
+            window.fbGet = get;
+            window.fbUpdate = update;
+            window.fbRemove = remove;
+            window.fbOnValue = onValue;
+            window.firebaseReady = true;
+        } catch (e) {
+            console.warn("Firebase fallback active.", e);
+            window.firebaseReady = false;
+        }
+    </script>
+
+    <!-- MAIN APP CONTAINER -->
+    <div id="app-container" class="max-w-md mx-auto w-full min-h-screen flex flex-col relative bg-slate-900/90 border-x border-slate-800 shadow-2xl">
+
+        <!-- BANNED SCREEN -->
+        <div id="banned-screen" class="hidden fixed inset-0 z-50 bg-red-950/95 text-white flex flex-col justify-between p-6 overflow-y-auto backdrop-blur-md">
+            <div class="text-center mt-8">
+                <div class="w-20 h-20 bg-red-900/80 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-red-500 shadow-2xl animate-bounce">
+                    <i class="fa-solid fa-user-slash text-3xl text-white"></i>
+                </div>
+                <h1 class="text-2xl font-extrabold mb-2">আপনার অ্যাকাউন্টটি ব্যান করা হয়েছে!</h1>
+                <p class="text-red-200 text-xs mb-6">শর্তাবলী লঙ্ঘনের কারণে এডমিন আপনার আইডি ব্লক করেছেন।</p>
+            </div>
+            <button onclick="logoutUser()" class="w-full bg-slate-900 text-slate-300 py-3 rounded-2xl font-semibold border border-red-500/30 text-xs">লগআউট করুন</button>
+        </div>
+
+        <!-- AUTH SECTION -->
+        <div id="auth-section" class="flex-1 flex flex-col justify-center p-6 relative z-10 bg-slate-950">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-tr from-brand-600 to-indigo-500 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-xl border border-indigo-400/30">
+                    <i class="fa-solid fa-graduation-cap text-3xl text-white"></i>
+                </div>
+                <h1 class="text-2xl font-black tracking-wider text-white">Shksc<span class="text-brand-400">More</span></h1>
+                <p class="text-slate-400 text-xs mt-1">Glory Realtime Interactive Platform</p>
+            </div>
+
+            <!-- LOGIN -->
+            <div id="login-container" class="glass-panel p-6 rounded-3xl space-y-4">
+                <h2 class="text-lg font-bold text-center text-slate-100">লগইন করুন</h2>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">ইমেইল ঠিকানা</label>
+                    <input type="email" id="login-email" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-500" placeholder="example@gmail.com">
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-slate-400 mb-1">পাসওয়ার্ড</label>
+                    <input type="password" id="login-pass" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-500" placeholder="••••••••">
+                </div>
+                <button onclick="handleLogin()" class="w-full bg-gradient-to-r from-brand-600 to-indigo-600 hover:from-brand-700 hover:to-indigo-700 text-white font-semibold py-3 rounded-xl text-xs shadow-lg transition">প্রবেশ করুন</button>
+                <div class="text-center pt-1">
+                    <p class="text-xs text-slate-400">নতুন অ্যাকাউন্ট তৈরি করতে চান? <a href="#" onclick="toggleAuthMode('register')" class="text-brand-400 font-semibold underline">রেজিস্ট্রেশন করুন</a></p>
+                </div>
+            </div>
+
+            <!-- MULTI-STEP REGISTER -->
+            <div id="register-container" class="hidden glass-panel p-6 rounded-3xl space-y-4">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-xs font-semibold text-brand-400">ধাপ <span id="current-step-num">১</span>/৬</span>
+                </div>
+
+                <!-- Step 1 -->
+                <div id="reg-step-1" class="step-content step-enter space-y-3">
+                    <h3 class="text-sm font-bold text-slate-100">ধাপ ১: আপনার নাম লিখুন</h3>
+                    <input type="text" id="reg-name" placeholder="আপনার সম্পূর্ণ নাম" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-500">
+                    <button onclick="nextStep(1)" class="w-full bg-brand-600 text-white font-semibold py-2.5 rounded-xl text-xs">পরবর্তী ধাপ</button>
+                </div>
+
+                <!-- Step 2 -->
+                <div id="reg-step-2" class="step-content hidden step-enter space-y-3 text-center">
+                    <h3 class="text-sm font-bold text-slate-100 text-left">ধাপ ২: প্রোফাইল অ্যাভাটার নির্বাচন করুন</h3>
+                    <div class="grid grid-cols-4 gap-2 py-1">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=1" onclick="selectAvatar(this)" class="avatar-option w-12 h-12 rounded-full border-2 border-brand-500 cursor-pointer mx-auto bg-slate-800 p-1">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=2" onclick="selectAvatar(this)" class="avatar-option w-12 h-12 rounded-full border-2 border-transparent cursor-pointer mx-auto bg-slate-800 p-1">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=3" onclick="selectAvatar(this)" class="avatar-option w-12 h-12 rounded-full border-2 border-transparent cursor-pointer mx-auto bg-slate-800 p-1">
+                        <img src="https://api.dicebear.com/7.x/bottts/svg?seed=4" onclick="selectAvatar(this)" class="avatar-option w-12 h-12 rounded-full border-2 border-transparent cursor-pointer mx-auto bg-slate-800 p-1">
+                    </div>
+                    <input type="text" id="reg-pic-url" placeholder="অথবা ছবির লিংক (URL) দিন" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
+                    <div class="flex gap-2">
+                        <button onclick="prevStep(2)" class="w-1/3 bg-slate-800 text-slate-300 font-semibold py-2.5 rounded-xl text-xs">পিছনে</button>
+                        <button onclick="nextStep(2)" class="w-2/3 bg-brand-600 text-white font-semibold py-2.5 rounded-xl text-xs">পরবর্তী ধাপ</button>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div id="reg-step-3" class="step-content hidden step-enter space-y-3">
+                    <h3 class="text-sm font-bold text-slate-100">ধাপ ৩: আপনার ইমেইল দিন</h3>
+                    <input type="email" id="reg-email" placeholder="example@gmail.com" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-500">
+                    <div class="flex gap-2">
+                        <button onclick="prevStep(3)" class="w-1/3 bg-slate-800 text-slate-300 font-semibold py-2.5 rounded-xl text-xs">পিছনে</button>
+                        <button onclick="nextStep(3)" class="w-2/3 bg-brand-600 text-white font-semibold py-2.5 rounded-xl text-xs">পরবর্তী ধাপ</button>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div id="reg-step-4" class="step-content hidden step-enter space-y-3">
+                    <h3 class="text-sm font-bold text-slate-100">ধাপ ৪: পাসওয়ার্ড সেট করুন</h3>
+                    <input type="password" id="reg-pass" placeholder="নূন্যতম ৬ অক্ষরের পাসওয়ার্ড" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none focus:border-brand-500">
+                    <div class="flex gap-2">
+                        <button onclick="prevStep(4)" class="w-1/3 bg-slate-800 text-slate-300 font-semibold py-2.5 rounded-xl text-xs">পিছনে</button>
+                        <button onclick="nextStep(4)" class="w-2/3 bg-brand-600 text-white font-semibold py-2.5 rounded-xl text-xs">পরবর্তী ধাপ</button>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div id="reg-step-5" class="step-content hidden step-enter space-y-3">
+                    <h3 class="text-sm font-bold text-slate-100">ধাপ ৫: ক্যাপচা ভেরিফিকেশন</h3>
+                    <div class="bg-slate-900 p-3 rounded-xl flex items-center justify-between border border-slate-700">
+                        <span id="captcha-code" class="text-xl font-mono font-bold tracking-widest text-brand-400 select-none">8X92K</span>
+                        <button onclick="generateCaptcha()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-rotate-right"></i></button>
+                    </div>
+                    <input type="text" id="captcha-input" placeholder="ক্যাপচা কোডটি টাইপ করুন" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none uppercase">
+                    <div class="flex gap-2">
+                        <button onclick="prevStep(5)" class="w-1/3 bg-slate-800 text-slate-300 font-semibold py-2.5 rounded-xl text-xs">পিছনে</button>
+                        <button onclick="verifyCaptchaAndProceed()" class="w-2/3 bg-brand-600 text-white font-semibold py-2.5 rounded-xl text-xs">ভেরিফাই করুন</button>
+                    </div>
+                </div>
+
+                <!-- Step 6 -->
+                <div id="reg-step-6" class="step-content hidden step-enter text-center py-4 space-y-3">
+                    <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto border-2 border-emerald-500 animate-pulse">
+                        <i class="fa-solid fa-circle-check text-4xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-white">রেজিস্ট্রেশন সফল হয়েছে!</h2>
+                    <button onclick="finishRegistration()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-xl text-xs shadow-lg">অ্যাপে প্রবেশ করুন</button>
+                </div>
+
+                <div class="text-center pt-1">
+                    <p class="text-xs text-slate-400">ইতিমধ্যে একাউন্ট আছে? <a href="#" onclick="toggleAuthMode('login')" class="text-brand-400 font-semibold underline">লগইন করুন</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN APP INTERFACE -->
+        <div id="main-app" class="hidden flex-1 flex flex-col justify-between relative pb-16">
+            
+            <!-- HEADER -->
+            <header class="sticky top-0 z-30 glass-panel px-4 py-3 flex items-center justify-between border-b border-slate-800 shadow-md">
+                <div class="flex items-center space-x-2.5">
+                    <img id="top-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" class="w-9 h-9 rounded-full bg-slate-800 border-2 border-brand-500 object-cover shadow-sm">
+                    <div>
+                        <div id="top-user-name" class="text-xs font-extrabold text-slate-100 truncate max-w-[85px]">User</div>
+                        <div class="flex items-center text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2 py-0.5 rounded-full border border-amber-500/30">
+                            <i class="fa-solid fa-coins mr-1"></i> <span id="top-user-points">0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div onclick="promptMasterPassword()" class="cursor-pointer text-center group">
+                    <h1 class="text-base font-black tracking-wider text-slate-100 group-hover:text-brand-400 transition">Shksc<span class="text-brand-400">More</span></h1>
+                    <span class="text-[8px] text-indigo-400 block -mt-1 font-mono tracking-widest">GLORY DB</span>
+                </div>
+
+                <div>
+                    <button onclick="openPremiumModal()" class="glow-btn bg-gradient-to-r from-amber-500 to-amber-600 text-slate-950 px-3 py-1.5 rounded-full text-[11px] font-extrabold flex items-center shadow-lg">
+                        <i class="fa-solid fa-crown mr-1"></i> প্রিমিয়াম
+                    </button>
+                </div>
+            </header>
+
+            <!-- TABS FEED AREA -->
+            <main id="tab-content" class="flex-1 p-4 overflow-y-auto hide-scrollbar space-y-4">
+                
+                <!-- TAB 1: HOME FEED -->
+                <section id="tab-home" class="space-y-4">
+                    <div class="glass-panel p-3.5 rounded-2xl border border-slate-800 space-y-2.5">
+                        <div class="flex items-center space-x-2">
+                            <img id="feed-user-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" class="w-8 h-8 rounded-full border border-brand-500">
+                            <input type="text" id="post-caption-input" placeholder="আপনার মনের কথা লিখুন..." class="flex-1 bg-slate-900/80 border border-slate-700 rounded-xl px-3 py-2 text-xs focus:outline-none">
+                        </div>
+
+                        <!-- Gallery File Selection Row -->
+                        <div class="flex items-center justify-between gap-2 pt-1">
+                            <label class="cursor-pointer bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition">
+                                <i class="fa-solid fa-photo-film text-brand-400"></i> 
+                                <span id="post-file-label">গ্যালারি থেকে সিলেক্ট করুন</span>
+                                <input type="file" id="post-media-file" accept="image/*,video/*" class="hidden" onchange="handleFileSelect(this, 'post-file-label')">
+                            </label>
+                            
+                            <button onclick="createUserPost()" class="bg-brand-600 hover:bg-brand-700 text-white px-4 py-1.5 rounded-xl text-xs font-bold transition shadow-md flex items-center">
+                                <i class="fa-solid fa-paper-plane mr-1.5"></i> পোস্ট করুন
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AdSense Top Display Ad Slot Placeholder -->
+                    <div class="glass-panel p-2 rounded-xl text-center border border-slate-800">
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                             data-ad-slot="1234567890"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                    </div>
+
+                    <div class="space-y-3">
+                        <h3 class="text-xs font-extrabold text-slate-300 flex items-center">
+                            <i class="fa-solid fa-rss text-brand-400 mr-2 text-sm"></i> সোশ্যাল ফিড & নোটিশ
+                        </h3>
+                        <div id="home-feed-list" class="space-y-3"></div>
+                    </div>
+                </section>
+
+                <!-- TAB 2: QUIZ FEED -->
+                <section id="tab-quiz" class="hidden space-y-4">
+                    <div id="quiz-ad-gate" class="glass-panel p-6 rounded-3xl text-center space-y-4 shadow-xl">
+                        <div class="w-16 h-16 bg-brand-500/20 text-brand-400 rounded-2xl flex items-center justify-center mx-auto border border-brand-500/30">
+                            <i class="fa-solid fa-gamepad text-3xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-base font-bold text-white">কুইজ আনলক করুন</h2>
+                            <p class="text-xs text-slate-400 mt-1">কুইজ খেলতে ৩ টি রিওয়ার্ড অ্যাড দেখতে হবে।</p>
+                        </div>
+
+                        <div class="flex justify-center items-center space-x-3 py-1">
+                            <div id="ad-status-1" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-500">১</div>
+                            <div id="ad-status-2" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-500">২</div>
+                            <div id="ad-status-3" class="w-10 h-10 rounded-2xl bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-500">৩</div>
+                        </div>
+
+                        <button id="watch-ad-btn" onclick="watchRewardAd()" class="w-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white font-extrabold py-3 rounded-2xl text-xs shadow-lg transition">
+                            <i class="fa-solid fa-play-circle mr-2 text-base"></i> অ্যাড দেখুন (১/৩)
+                        </button>
+                    </div>
+
+                    <div id="quiz-categories-view" class="hidden space-y-3">
+                        <h3 class="text-xs font-bold text-slate-300">উপলব্ধ কুইজ বিষয়সমূহ:</h3>
+                        <div id="quiz-categories-list" class="space-y-2.5"></div>
+                    </div>
+
+                    <div id="quiz-play-view" class="hidden glass-panel p-5 rounded-3xl space-y-4 shadow-2xl">
+                        <div class="flex justify-between items-center text-xs text-slate-400 border-b border-slate-800 pb-2.5">
+                            <span id="active-quiz-title-badge" class="font-bold text-brand-400">কুইজ</span>
+                            <span>স্কোর: <strong id="q-score" class="text-emerald-400 font-bold">0</strong></span>
+                        </div>
+
+                        <div class="min-h-[70px]">
+                            <h3 id="quiz-question-text" class="text-sm font-bold text-slate-100 leading-relaxed">প্রশ্ন লোড হচ্ছে...</h3>
+                        </div>
+
+                        <div id="quiz-options-container" class="space-y-2.5"></div>
+
+                        <button id="next-q-btn" onclick="nextQuestion()" class="hidden w-full bg-brand-600 hover:bg-brand-700 text-white font-extrabold py-3 rounded-2xl text-xs shadow-lg">পরবর্তী প্রশ্ন</button>
+                    </div>
+                </section>
+
+                <!-- TAB 3: STORE -->
+                <section id="tab-store" class="hidden space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xs font-bold text-slate-300"><i class="fa-solid fa-store text-amber-400 mr-1.5"></i> ইন-অ্যাপ সাজেশন ও নোটস স্টোর</h2>
+                    </div>
+                    <div id="store-items-container" class="grid grid-cols-1 gap-3"></div>
+                </section>
+
+                <!-- TAB 4: PROFILE -->
+                <section id="tab-profile" class="hidden space-y-4">
+                    <div class="glass-panel rounded-3xl overflow-hidden border border-slate-800 shadow-xl">
+                        <div class="h-32 bg-gradient-to-r from-brand-900 via-indigo-900 to-slate-900 relative"></div>
+
+                        <div class="px-5 pb-5 relative">
+                            <div class="flex justify-between items-end -mt-12 mb-3">
+                                <img id="profile-page-avatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=1" class="w-20 h-20 rounded-full border-4 border-slate-900 bg-slate-800 object-cover shadow-2xl">
+                                <button onclick="editProfileBio()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-[11px] px-3.5 py-1.5 rounded-xl font-bold">বায়ো এডিট</button>
+                            </div>
+
+                            <h2 id="profile-page-name" class="text-lg font-black text-white">User Name</h2>
+                            <p id="profile-page-email" class="text-xs text-slate-400">user@email.com</p>
+                            <p id="profile-page-bio" class="text-xs text-slate-300 italic mt-2.5 bg-slate-900/60 p-2.5 rounded-2xl border border-slate-800">"জ্ঞান অর্জনই সফলতার চাবিকাঠি।"</p>
+
+                            <div class="grid grid-cols-3 gap-2.5 mt-3.5 text-center">
+                                <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
+                                    <div class="text-[9px] font-bold text-slate-400">মোট পয়েন্ট</div>
+                                    <div id="profile-stat-points" class="text-xs font-black text-amber-400 mt-0.5">0</div>
+                                </div>
+                                <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
+                                    <div class="text-[9px] font-bold text-slate-400">স্ট্যাটাস</div>
+                                    <div id="profile-stat-status" class="text-[10px] font-bold text-slate-300 mt-0.5">ফ্রি ইউজার</div>
+                                </div>
+                                <div class="bg-slate-900/80 p-2.5 rounded-2xl border border-slate-800">
+                                    <div class="text-[9px] font-bold text-slate-400">কুইজ খেলেছেন</div>
+                                    <div id="profile-stat-played" class="text-xs font-black text-brand-400 mt-0.5">0 টি</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="logoutUser()" class="w-full bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 py-3 rounded-2xl font-bold text-xs flex items-center justify-center">
+                        <i class="fa-solid fa-right-from-bracket mr-2"></i> একাউন্ট থেকে লগআউট করুন
+                    </button>
+                </section>
+
+                <!-- FOOTER POLICY SECTION (Google AdSense Policy Requirement) -->
+                <footer class="mt-8 mb-4 p-4 glass-panel rounded-2xl border border-slate-800 text-center space-y-3">
+                    <h4 class="text-xs font-extrabold text-slate-300">ShkscMore - Glory Edition</h4>
+                    <p class="text-[10px] text-slate-400 leading-relaxed">
+                        আমাদের প্ল্যাটফর্মটি একটি অনলাইন কুইজ, শিক্ষামূলক সাজেশন ও সোশ্যাল ইন্টারঅ্যাক্টিভ সার্ভিস।
+                    </p>
+                    
+                    <div class="pt-2 border-t border-slate-800 text-[11px] space-y-1">
+                        <p class="text-slate-300 font-bold">Contact Us:</p>
+                        <p class="text-brand-400 font-mono">
+                            <i class="fa-solid fa-envelope mr-1"></i>
+                            <a href="mailto:g.cloud.audit@gmail.com" class="underline">g.cloud.audit@gmail.com</a>
+                        </p>
+                    </div>
+
+                    <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-400">
+                        <p class="font-bold text-slate-300 mb-1">Privacy Policy & Terms:</p>
+                        <p>আমরা ব্যবহারকারীদের গোপনীয়তা ও তথ্যের সুরক্ষা প্রদান করে থাকি। আমাদের প্ল্যাটফর্ম থার্ড-পার্টি অ্যাডভার্টাইজিং পার্টনার (যেমন: Google AdSense) ব্যবহার করে যা কুকিজ (Cookies) প্রক্রিয়াকরণের মাধ্যমে পার্সোনালাইজড বিজ্ঞাপন প্রদর্শন করে।</p>
+                    </div>
+                    
+                    <div class="text-[9px] text-slate-500 pt-1">
+                        &copy; 2026 ShkscMore Glory. All Rights Reserved.
+                    </div>
+                </footer>
+
+            </main>
+
+            <!-- Bottom Navigation Bar -->
+            <nav class="fixed bottom-0 left-0 right-0 max-w-md mx-auto glass-panel border-t border-slate-800 px-6 py-2.5 flex justify-between items-center z-40">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn flex flex-col items-center text-brand-400">
+                    <i class="fa-solid fa-house text-base"></i>
+                    <span class="text-[10px] mt-0.5 font-bold">হোম</span>
+                </button>
+                <button onclick="switchTab('quiz')" id="nav-quiz" class="nav-btn flex flex-col items-center text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-brain text-base"></i>
+                    <span class="text-[10px] mt-0.5 font-bold">কুইজ</span>
+                </button>
+                <button onclick="switchTab('store')" id="nav-store" class="nav-btn flex flex-col items-center text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-bag-shopping text-base"></i>
+                    <span class="text-[10px] mt-0.5 font-bold">স্টোর</span>
+                </button>
+                <button onclick="switchTab('profile')" id="nav-profile" class="nav-btn flex flex-col items-center text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-user text-base"></i>
+                    <span class="text-[10px] mt-0.5 font-bold">প্রোফাইল</span>
+                </button>
+            </nav>
+        </div>
+
+        <!-- BKASH PREMIUM MODAL -->
+        <div id="premium-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+            <div class="glass-panel max-w-sm w-full p-6 rounded-3xl relative space-y-4 border border-amber-500/40 shadow-2xl">
+                <button onclick="closePremiumModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+                
+                <div class="text-center">
+                    <div class="w-12 h-12 bg-amber-500/20 text-amber-400 rounded-full flex items-center justify-center mx-auto mb-2 border border-amber-500/40">
+                        <i class="fa-solid fa-crown text-xl"></i>
+                    </div>
+                    <h3 class="text-base font-extrabold text-white">প্রিমিয়াম মেম্বারশিপ</h3>
+                    <p class="text-xs text-slate-400">বিজ্ঞাপন ছাড়া অনবরত কুইজ খেলার সুবিধা পান</p>
+                </div>
+
+                <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-2 text-xs">
+                    <div class="flex justify-between items-center text-slate-300">
+                        <span>বিকাশ পার্সোনাল নম্বর:</span>
+                        <span class="font-mono font-black text-amber-400 text-sm select-all">01612116767</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400">১০০ টাকা বিকাশ সেন্ড মানি করুন এবং নিচে ট্রানজেকশন আইডি প্রদান করুন।</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 mb-1">bKash Transaction ID (TrxID)</label>
+                    <input type="text" id="trx-id-input" placeholder="যেমন: 9J82K3LL" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs focus:outline-none uppercase font-mono">
+                </div>
+
+                <button onclick="submitPremiumPayment()" class="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold py-3 rounded-2xl text-xs transition shadow-lg">পেমেন্ট সাবমিট করুন</button>
+            </div>
+        </div>
+
+        <!-- MASTER ADMIN PANEL (PIN: 6700) -->
+        <div id="master-panel" class="hidden fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-xl text-slate-100 flex flex-col">
+            <div class="p-4 bg-slate-900/90 border-b border-slate-800 flex justify-between items-center shadow-md">
+                <div class="flex items-center space-x-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-indigo-600/30 border border-indigo-500/50 flex items-center justify-center text-indigo-400">
+                        <i class="fa-solid fa-user-shield text-sm"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-black text-xs text-white">মাস্টার এডমিন প্যানেল</h2>
+                        <span class="text-[9px] text-emerald-400 font-mono">● সিকিউর মোড (6700)</span>
+                    </div>
+                </div>
+                <button onclick="closeMasterPanel()" class="text-slate-400 hover:text-white bg-slate-800 px-3 py-1.5 rounded-xl text-xs font-bold"><i class="fa-solid fa-xmark mr-1"></i> বন্ধ করুন</button>
+            </div>
+
+            <div class="flex border-b border-slate-800 bg-slate-900/50 text-xs overflow-x-auto hide-scrollbar p-1.5 gap-1">
+                <button onclick="switchMasterTab('users')" id="mtab-users" class="px-3.5 py-2 rounded-xl font-bold bg-brand-600 text-white whitespace-nowrap transition">ইউজার্স & প্রিমিয়াম</button>
+                <button onclick="switchMasterTab('quiz')" id="mtab-quiz" class="px-3.5 py-2 rounded-xl font-bold text-slate-400 hover:bg-slate-800 whitespace-nowrap transition">কুইজ বানান</button>
+                <button onclick="switchMasterTab('post')" id="mtab-post" class="px-3.5 py-2 rounded-xl font-bold text-slate-400 hover:bg-slate-800 whitespace-nowrap transition">পোস্ট করুন</button>
+                <button onclick="switchMasterTab('store')" id="mtab-store" class="px-3.5 py-2 rounded-xl font-bold text-slate-400 hover:bg-slate-800 whitespace-nowrap transition">স্টোর সাজেশন</button>
+            </div>
+
+            <div class="flex-1 p-4 overflow-y-auto space-y-4 text-xs hide-scrollbar">
+
+                <!-- USER MANAGEMENT & PREMIUM CONTROL -->
+                <div id="master-sec-users" class="space-y-3">
+                    <h3 class="font-extrabold text-slate-300">ইউজার তালিকা & প্রিমিয়াম কন্ট্রোল</h3>
+                    <div id="master-users-list" class="space-y-2.5"></div>
+                </div>
+
+                <div id="master-sec-quiz" class="hidden space-y-3">
+                    <div class="bg-slate-900 border border-slate-800 p-3.5 rounded-2xl space-y-2">
+                        <h3 class="font-bold text-slate-200">নতুন কুইজ ক্যাটাগরি তৈরি করুন</h3>
+                        <input type="text" id="adm-quiz-title" placeholder="কুইজের নাম (যেমন: বিসিএস প্রশ্নব্যাংক)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs">
+                        <input type="number" id="adm-quiz-coins" placeholder="প্রতি সঠিক উত্তরে কয়েন/পয়েন্ট (যেমন: 10)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs">
+                    </div>
+
+                    <textarea id="adm-quiz-raw" rows="6" placeholder="প্রশ্ন? | অপশন১, অপশন২, অপশন৩, অপশন৪ | সঠিক_ইনডেক্স(0-3)&#10;পদ্মা সেতু কত লেনের? | ২ লেন, ৪ লেন, ৬ লেন, ৮ লেন | 1" class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3 font-mono text-xs focus:outline-none"></textarea>
+                    <button onclick="publishNewQuizCategory()" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-extrabold py-3 rounded-2xl shadow-lg">কুইজ ক্যাটাগরি পাবলিশ করুন</button>
+
+                    <div class="border-t border-slate-800 pt-3">
+                        <h4 class="font-bold text-slate-300 mb-2">বিদ্যমান কুইজ ক্যাটাগরি তালিকা:</h4>
+                        <div id="admin-quiz-list" class="space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- ADMIN POST WITH MEDIA FILE -->
+                <div id="master-sec-post" class="hidden space-y-3">
+                    <h3 class="font-bold text-slate-300">ফিডে এডমিন পোস্ট করুন</h3>
+                    <textarea id="adm-post-text" rows="3" placeholder="পোস্টের ক্যাপশন..." class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3 text-xs focus:outline-none"></textarea>
+                    
+                    <label class="cursor-pointer bg-slate-900 border border-slate-700 px-3 py-2 rounded-xl text-xs font-bold text-slate-300 flex items-center justify-between">
+                        <span id="adm-file-label"><i class="fa-solid fa-photo-film text-brand-400 mr-2"></i> গ্যালারি থেকে ছবি/ভিডিও আপলোড করুন</span>
+                        <input type="file" id="adm-post-media-file" accept="image/*,video/*" class="hidden" onchange="handleFileSelect(this, 'adm-file-label')">
+                    </label>
+
+                    <button onclick="publishAdminPost()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold py-3 rounded-2xl shadow-lg">পোস্ট প্রকাশ করুন</button>
+
+                    <div class="border-t border-slate-800 pt-3">
+                        <h4 class="font-bold text-slate-300 mb-2">সকল ফিড পোস্ট (ডিলিট অপশনসহ):</h4>
+                        <div id="admin-feed-manage-list" class="space-y-2"></div>
+                    </div>
+                </div>
+
+                <div id="master-sec-store" class="hidden space-y-3">
+                    <h3 class="font-bold text-slate-300">স্টোরে নতুন সাজেশন/নোট যুক্ত করুন</h3>
+                    <input type="text" id="adm-store-title" placeholder="নোটের নাম (যেমন: বিসিএস স্পেশাল সাজেশন)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs">
+                    <input type="number" id="adm-store-price" placeholder="মূল্য পয়েন্ট/কয়েনে (যেমন: 50)" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs">
+                    <textarea id="adm-store-content" rows="5" placeholder="সম্পূর্ণ নোটস বা সাজেশনের টেক্সট যা কেনাকাটার পর ইউজার দেখতে পাবে..." class="w-full bg-slate-900 border border-slate-700 rounded-2xl p-3 text-xs focus:outline-none"></textarea>
+                    <button onclick="publishStoreItem()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-extrabold py-3 rounded-2xl shadow-lg">স্টোর আইটেম যুক্ত করুন</button>
+
+                    <div class="border-t border-slate-800 pt-3">
+                        <h4 class="font-bold text-slate-300 mb-2">স্টোর আইটেম তালিকা (ডিলিট অপশনসহ):</h4>
+                        <div id="admin-store-manage-list" class="space-y-2"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SCRIPT WITH GALLERY FILE READING & REALTIME DB SYNC -->
+    <script>
+        const STORAGE_USER = 'shksc_user_glory';
+        const STORAGE_POSTS = 'shksc_posts_glory';
+        const STORAGE_STORE = 'shksc_store_glory';
+        const STORAGE_QUIZZES = 'shksc_quizzes_glory';
+
+        let currentUser = null;
+        let activeCaptcha = '';
+        let watchedAdsCount = 0;
+        let activeQuizCategory = null;
+        let activeQuizQuestions = [];
+        let currentQuestionIdx = 0;
+        let quizScore = 0;
+
+        let selectedUserMedia = null;
+        let selectedAdminMedia = null;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            generateCaptcha();
+            initDefaultData();
+            checkSavedSession();
+            setupFirebaseRealtimeListeners();
+        });
+
+        function handleFileSelect(input, labelId) {
+            const file = input.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const mediaData = {
+                    url: e.target.result,
+                    type: file.type.startsWith('video') ? 'video' : 'image'
+                };
+
+                if (labelId === 'post-file-label') {
+                    selectedUserMedia = mediaData;
+                    document.getElementById(labelId).innerText = "মিডিয়া সিলেক্ট হয়েছে ✔";
+                } else if (labelId === 'adm-file-label') {
+                    selectedAdminMedia = mediaData;
+                    document.getElementById(labelId).innerText = "মিডিয়া সিলেক্ট হয়েছে ✔";
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function initDefaultData() {
+            if (!localStorage.getItem(STORAGE_POSTS)) {
+                const defaultPosts = [
+                    { id: 'p1', author: 'ShkscMore Admin', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Admin', text: 'ShkscMore Glory প্লাটফর্মে আপনাকে স্বাগতম! কুইজ খেলুন এবং জ্ঞান অর্জন করুন।', media: null, time: 'আজ' }
+                ];
+                localStorage.setItem(STORAGE_POSTS, JSON.stringify(defaultPosts));
+            }
+
+            if (!localStorage.getItem(STORAGE_STORE)) {
+                const defaultStore = [
+                    { id: 's1', title: 'বিসিএস ও প্রাইমারি ১০০% কমন সাজেশন', price: 50, text: '১. বাংলাদেশের স্বাধীনতা দিবস ২৬ মার্চ।\n২. কম্পিউটার মস্তিষ্কাংশ হলো CPU।\n৩. সুন্দরবন বিশ্বের বৃহত্তম ম্যানগ্রোভ বন।' }
+                ];
+                localStorage.setItem(STORAGE_STORE, JSON.stringify(defaultStore));
+            }
+
+            if (!localStorage.getItem(STORAGE_QUIZZES)) {
+                const defaultQuizzes = [
+                    {
+                        id: 'q1',
+                        title: 'সাধারণ জ্ঞান প্রশ্নব্যাংক',
+                        coinPerQ: 10,
+                        questions: [
+                            { q: 'বাংলাদেশের স্বাধীনতা দিবস কবে?', options: ['২৬ মার্চ', '১৬ ডিসেম্বর', '২১ ফেব্রুয়ারি', '১৪ এপ্রিল'], ans: 0 },
+                            { q: 'কম্পিউটারের ব্রেইন বলা হয় কাকে?', options: ['RAM', 'CPU', 'Hard Disk', 'Monitor'], ans: 1 }
+                        ]
+                    }
+                ];
+                localStorage.setItem(STORAGE_QUIZZES, JSON.stringify(defaultQuizzes));
+            }
+        }
+
+        function setupFirebaseRealtimeListeners() {
+            if (window.firebaseReady && window.db) {
+                try {
+                    window.fbOnValue(window.fbRef(window.db, 'posts'), (snapshot) => {
+                        if (snapshot.exists()) {
+                            const posts = Object.values(snapshot.val()).reverse();
+                            localStorage.setItem(STORAGE_POSTS, JSON.stringify(posts));
+                            renderPostsUI(posts);
+                        }
+                    });
+
+                    window.fbOnValue(window.fbRef(window.db, 'quizzes'), (snapshot) => {
+                        if (snapshot.exists()) {
+                            const quizzes = Object.values(snapshot.val());
+                            localStorage.setItem(STORAGE_QUIZZES, JSON.stringify(quizzes));
+                            renderQuizCategoriesUI(quizzes);
+                        }
+                    });
+
+                    window.fbOnValue(window.fbRef(window.db, 'store'), (snapshot) => {
+                        if (snapshot.exists()) {
+                            const store = Object.values(snapshot.val());
+                            localStorage.setItem(STORAGE_STORE, JSON.stringify(store));
+                            renderStoreItemsUI(store);
+                        }
+                    });
+                } catch(e) {}
+            }
+        }
+
+        function toggleAuthMode(mode) {
+            if (mode === 'register') {
+                document.getElementById('login-container').classList.add('hidden');
+                document.getElementById('register-container').classList.remove('hidden');
+            } else {
+                document.getElementById('register-container').classList.add('hidden');
+                document.getElementById('login-container').classList.remove('hidden');
+            }
+        }
+
+        function generateCaptcha() {
+            const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let captcha = '';
+            for (let i = 0; i < 5; i++) captcha += chars.charAt(Math.floor(Math.random() * chars.length));
+            activeCaptcha = captcha;
+            if (document.getElementById('captcha-code')) document.getElementById('captcha-code').innerText = captcha;
+        }
+
+        function selectAvatar(el) {
+            window.selectedRegAvatar = el.src;
+            document.querySelectorAll('.avatar-option').forEach(img => img.classList.replace('border-brand-500', 'border-transparent'));
+            el.classList.replace('border-transparent', 'border-brand-500');
+        }
+
+        function nextStep(step) {
+            if (step === 1 && !document.getElementById('reg-name').value.trim()) return alert('নাম লিখুন');
+            if (step === 3 && !document.getElementById('reg-email').value.trim()) return alert('ইমেইল দিন');
+            if (step === 4 && document.getElementById('reg-pass').value.length < 6) return alert('কমপক্ষে ৬ অক্ষরের পাসওয়ার্ড দিন');
+
+            document.getElementById(`reg-step-${step}`).classList.add('hidden');
+            document.getElementById(`reg-step-${step + 1}`).classList.remove('hidden');
+            document.getElementById('current-step-num').innerText = step + 1;
+        }
+
+        function prevStep(step) {
+            document.getElementById(`reg-step-${step}`).classList.add('hidden');
+            document.getElementById(`reg-step-${step - 1}`).classList.remove('hidden');
+            document.getElementById('current-step-num').innerText = step - 1;
+        }
+
+        function verifyCaptchaAndProceed() {
+            if (document.getElementById('captcha-input').value.trim().toUpperCase() !== activeCaptcha) {
+                alert('ক্যাপচা ভুল হয়েছে!');
+                generateCaptcha();
+                return;
+            }
+            nextStep(5);
+        }
+
+        function finishRegistration() {
+            const uid = 'user_' + Date.now();
+            const userPayload = {
+                uid: uid,
+                name: document.getElementById('reg-name').value.trim() || "ইউজার",
+                avatar: window.selectedRegAvatar || document.getElementById('reg-pic-url').value.trim() || "https://api.dicebear.com/7.x/bottts/svg?seed=1",
+                email: document.getElementById('reg-email').value.trim() || "user@email.com",
+                pass: document.getElementById('reg-pass').value || "123456",
+                points: 100,
+                isPremium: false,
+                isBanned: false,
+                bio: "জ্ঞান অর্জনই সফলতার চাবিকাঠি।",
+                quizzesPlayed: 0,
+                purchasedNotes: []
+            };
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbSet(window.fbRef(window.db, 'users/' + uid), userPayload); } catch(e){}
+            }
+
+            localStorage.setItem(STORAGE_USER, JSON.stringify(userPayload));
+            bootMainApp(userPayload);
+        }
+
+        function handleLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const pass = document.getElementById('login-pass').value;
+            if (!email || !pass) return alert('ইমেইল ও পাসওয়ার্ড প্রদান করুন।');
+
+            const uid = 'user_' + Date.now();
+            const fallbackUser = {
+                uid: uid,
+                name: email.split('@')[0] || "ইউজার",
+                avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=' + email,
+                email: email,
+                pass: pass,
+                points: 50,
+                isPremium: false,
+                isBanned: false,
+                bio: "জ্ঞান অর্জনই সফলতার চাবিকাঠি।",
+                quizzesPlayed: 0,
+                purchasedNotes: []
+            };
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbSet(window.fbRef(window.db, 'users/' + uid), fallbackUser); } catch(e){}
+            }
+
+            localStorage.setItem(STORAGE_USER, JSON.stringify(fallbackUser));
+            bootMainApp(fallbackUser);
+        }
+
+        function checkSavedSession() {
+            const localUserData = localStorage.getItem(STORAGE_USER);
+            if (localUserData) {
+                try { bootMainApp(JSON.parse(localUserData)); } catch (e) { localStorage.removeItem(STORAGE_USER); }
+            }
+        }
+
+        function bootMainApp(user) {
+            currentUser = user;
+
+            if (currentUser.isBanned) {
+                document.getElementById('banned-screen').classList.remove('hidden');
+                document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('main-app').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('banned-screen').classList.add('hidden');
+            document.getElementById('auth-section').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+
+            document.getElementById('top-user-avatar').src = currentUser.avatar;
+            document.getElementById('feed-user-avatar').src = currentUser.avatar;
+            document.getElementById('top-user-name').innerText = currentUser.name;
+            document.getElementById('top-user-points').innerText = currentUser.points;
+
+            document.getElementById('profile-page-avatar').src = currentUser.avatar;
+            document.getElementById('profile-page-name').innerText = currentUser.name;
+            document.getElementById('profile-page-email').innerText = currentUser.email;
+            document.getElementById('profile-page-bio').innerText = `"${currentUser.bio || 'জ্ঞান অর্জনই সফলতার চাবিকাঠি।'}"`;
+            document.getElementById('profile-stat-points').innerText = currentUser.points;
+            document.getElementById('profile-stat-status').innerText = currentUser.isPremium ? 'প্রিমিয়াম ইউজার' : 'ফ্রি ইউজার';
+            document.getElementById('profile-stat-played').innerText = (currentUser.quizzesPlayed || 0) + ' টি';
+
+            loadHomeFeed();
+            loadQuizCategories();
+            loadStoreItems();
+        }
+
+        function logoutUser() {
+            localStorage.removeItem(STORAGE_USER);
+            location.reload();
+        }
+
+        function switchTab(tab) {
+            ['home', 'quiz', 'store', 'profile'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`nav-${t}`).classList.replace('text-brand-400', 'text-slate-400');
+            });
+
+            document.getElementById(`tab-${tab}`).classList.remove('hidden');
+            document.getElementById(`nav-${tab}`).classList.replace('text-slate-400', 'text-brand-400');
+
+            if (tab === 'home') loadHomeFeed();
+            if (tab === 'quiz') loadQuizCategories();
+            if (tab === 'store') loadStoreItems();
+        }
+
+        function createUserPost() {
+            const text = document.getElementById('post-caption-input').value.trim();
+            if (!text && !selectedUserMedia) return alert('পোস্টের বিষয়বস্তু অথবা মিডিয়া ফাইল দিন');
+
+            const pid = 'post_' + Date.now();
+            const postObj = {
+                id: pid,
+                author: currentUser.name,
+                avatar: currentUser.avatar,
+                text: text,
+                media: selectedUserMedia,
+                time: 'এখনই'
+            };
+
+            const posts = JSON.parse(localStorage.getItem(STORAGE_POSTS) || '[]');
+            posts.unshift(postObj);
+            localStorage.setItem(STORAGE_POSTS, JSON.stringify(posts));
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbSet(window.fbRef(window.db, 'posts/' + pid), postObj); } catch(e){}
+            }
+
+            document.getElementById('post-caption-input').value = '';
+            document.getElementById('post-media-file').value = '';
+            document.getElementById('post-file-label').innerText = 'গ্যালারি থেকে সিলেক্ট করুন';
+            selectedUserMedia = null;
+            loadHomeFeed();
+        }
+
+        function loadHomeFeed() {
+            const posts = JSON.parse(localStorage.getItem(STORAGE_POSTS) || '[]');
+            renderPostsUI(posts);
+        }
+
+        function renderPostsUI(posts) {
+            const container = document.getElementById('home-feed-list');
+            if (!container) return;
+            container.innerHTML = '';
+            posts.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "glass-panel p-4 rounded-2xl space-y-2 border border-slate-800";
+                
+                let mediaHtml = '';
+                if (p.media) {
+                    if (p.media.type === 'video') {
+                        mediaHtml = `<video src="${p.media.url}" controls class="w-full h-48 object-cover rounded-xl mt-2"></video>`;
+                    } else {
+                        mediaHtml = `<img src="${p.media.url}" class="w-full h-48 object-cover rounded-xl mt-2">`;
+                    }
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <img src="${p.avatar}" class="w-8 h-8 rounded-full border border-brand-500">
+                        <div>
+                            <div class="font-bold text-xs text-slate-100">${p.author}</div>
+                            <span class="text-[9px] text-slate-400">${p.time}</span>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-200 leading-relaxed">${p.text}</p>
+                    ${mediaHtml}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function watchRewardAd() {
+            if (currentUser && currentUser.isPremium) {
+                alert('আপনি একজন প্রিমিয়াম মেম্বার!');
+                unlockQuizCategoriesView();
+                return;
+            }
+
+            watchedAdsCount++;
+            const statusEl = document.getElementById(`ad-status-${watchedAdsCount}`);
+            if (statusEl) statusEl.classList.replace('bg-slate-800', 'bg-emerald-500');
+
+            if (watchedAdsCount < 3) {
+                document.getElementById('watch-ad-btn').innerHTML = `<i class="fa-solid fa-play-circle mr-2"></i> অ্যাড দেখুন (${watchedAdsCount + 1}/৩)`;
+            } else {
+                alert('৩টি বিজ্ঞাপন দেখা সম্পন্ন হয়েছে!');
+                unlockQuizCategoriesView();
+            }
+        }
+
+        function unlockQuizCategoriesView() {
+            document.getElementById('quiz-ad-gate').classList.add('hidden');
+            document.getElementById('quiz-categories-view').classList.remove('hidden');
+            loadQuizCategories();
+        }
+
+        function loadQuizCategories() {
+            const categories = JSON.parse(localStorage.getItem(STORAGE_QUIZZES) || '[]');
+            renderQuizCategoriesUI(categories);
+        }
+
+        function renderQuizCategoriesUI(categories) {
+            const container = document.getElementById('quiz-categories-list');
+            if (!container) return;
+            container.innerHTML = '';
+            categories.forEach(cat => {
+                const card = document.createElement('div');
+                card.className = "glass-panel p-4 rounded-2xl flex justify-between items-center border border-slate-800";
+                card.innerHTML = `
+                    <div>
+                        <h4 class="font-extrabold text-sm text-white">${cat.title}</h4>
+                        <span class="text-[10px] text-amber-400 font-bold"><i class="fa-solid fa-coins mr-1"></i>প্রতি উত্তরে +${cat.coinPerQ} কয়েন</span>
+                    </div>
+                    <button onclick="startSpecificQuiz('${cat.id}')" class="bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold px-3.5 py-2 rounded-xl">শুরু করুন</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function startSpecificQuiz(catId) {
+            const categories = JSON.parse(localStorage.getItem(STORAGE_QUIZZES) || '[]');
+            activeQuizCategory = categories.find(c => c.id === catId);
+
+            if (!activeQuizCategory || !activeQuizCategory.questions || !activeQuizCategory.questions.length) return alert('কোনো প্রশ্ন পাওয়া যায়নি!');
+
+            document.getElementById('quiz-categories-view').classList.add('hidden');
+            document.getElementById('quiz-play-view').classList.remove('hidden');
+
+            activeQuizQuestions = activeQuizCategory.questions;
+            currentQuestionIdx = 0;
+            quizScore = 0;
+            renderCurrentQuestion();
+        }
+
+        function renderCurrentQuestion() {
+            if (currentQuestionIdx >= activeQuizQuestions.length) {
+                const earnedCoins = quizScore * (activeQuizCategory ? activeQuizCategory.coinPerQ : 10);
+                alert(`কুইজ সম্পন্ন! আপনার অর্জিত কয়েন: ${earnedCoins}`);
+
+                currentUser.points += earnedCoins;
+                currentUser.quizzesPlayed = (currentUser.quizzesPlayed || 0) + 1;
+                
+                if (window.firebaseReady && window.db) {
+                    try {
+                        window.fbUpdate(window.fbRef(window.db, 'users/' + currentUser.uid), {
+                            points: currentUser.points,
+                            quizzesPlayed: currentUser.quizzesPlayed
+                        });
+                    } catch(e){}
+                }
+
+                localStorage.setItem(STORAGE_USER, JSON.stringify(currentUser));
+                location.reload();
+                return;
+            }
+
+            const qData = activeQuizQuestions[currentQuestionIdx];
+            document.getElementById('active-quiz-title-badge').innerText = `${activeQuizCategory.title} (${currentQuestionIdx + 1}/${activeQuizQuestions.length})`;
+
+            document.getElementById('quiz-question-text').innerText = qData.q;
+            const optsContainer = document.getElementById('quiz-options-container');
+            optsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-slate-900/80 hover:bg-slate-800 border border-slate-800 p-3 rounded-2xl text-xs font-semibold text-slate-200 transition flex justify-between items-center";
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle text-slate-500"></i>`;
+                btn.onclick = () => selectQuizAnswer(idx, qData.ans, btn);
+                optsContainer.appendChild(btn);
+            });
+
+            document.getElementById('next-q-btn').classList.add('hidden');
+        }
+
+        function selectQuizAnswer(selectedIdx, correctIdx, btnEl) {
+            const allBtns = document.querySelectorAll('#quiz-options-container button');
+            allBtns.forEach(b => b.disabled = true);
+
+            if (selectedIdx === correctIdx) {
+                btnEl.classList.add('bg-emerald-600/20', 'border-emerald-500', 'text-emerald-300');
+                quizScore++;
+                document.getElementById('q-score').innerText = quizScore;
+            } else {
+                btnEl.classList.add('bg-red-600/20', 'border-red-500', 'text-red-300');
+                allBtns[correctIdx].classList.add('bg-emerald-600/20', 'border-emerald-500');
+            }
+
+            document.getElementById('next-q-btn').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            currentQuestionIdx++;
+            renderCurrentQuestion();
+        }
+
+        function loadStoreItems() {
+            const items = JSON.parse(localStorage.getItem(STORAGE_STORE) || '[]');
+            renderStoreItemsUI(items);
+        }
+
+        function renderStoreItemsUI(items) {
+            const container = document.getElementById('store-items-container');
+            if (!container) return;
+            container.innerHTML = '';
+            items.forEach(item => {
+                const isBought = currentUser.purchasedNotes && currentUser.purchasedNotes.includes(item.id);
+                const card = document.createElement('div');
+                card.className = "glass-panel p-4 rounded-2xl space-y-2 border border-slate-800";
+                
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <h4 class="font-bold text-xs text-white">${item.title}</h4>
+                        <span class="text-amber-400 font-extrabold text-xs"><i class="fa-solid fa-coins mr-1"></i>${item.price} কয়েন</span>
+                    </div>
+                    ${isBought ? `
+                        <div class="bg-slate-950 p-3 rounded-xl text-xs text-slate-300 border border-slate-800 whitespace-pre-line">${item.text}</div>
+                    ` : `
+                        <button onclick="buyStoreItem('${item.id}',${item.price})" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold py-2 rounded-xl text-xs">নোট আনলক করুন (${item.price} কয়েন)</button>
+                    `}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function buyStoreItem(itemId, price) {
+            if (currentUser.points < price) return alert('পর্যাপ্ত কয়েন নেই!');
+
+            currentUser.points -= price;
+            if (!currentUser.purchasedNotes) currentUser.purchasedNotes = [];
+            currentUser.purchasedNotes.push(itemId);
+
+            if (window.firebaseReady && window.db) {
+                try {
+                    window.fbUpdate(window.fbRef(window.db, 'users/' + currentUser.uid), {
+                        points: currentUser.points,
+                        purchasedNotes: currentUser.purchasedNotes
+                    });
+                } catch(e){}
+            }
+
+            localStorage.setItem(STORAGE_USER, JSON.stringify(currentUser));
+            bootMainApp(currentUser);
+            alert('নোটস সফলভাবে আনলক করা হয়েছে!');
+        }
+
+        function promptMasterPassword() {
+            if (prompt("মাস্টার এডমিন পাসওয়ার্ড:") === "6700") {
+                document.getElementById('master-panel').classList.remove('hidden');
+                renderMasterUsersList();
+                renderAdminQuizList();
+                renderAdminFeedList();
+                renderAdminStoreList();
+            } else alert("ভুল পাসওয়ার্ড!");
+        }
+
+        function closeMasterPanel() { document.getElementById('master-panel').classList.add('hidden'); }
+
+        function switchMasterTab(tab) {
+            ['users', 'quiz', 'post', 'store'].forEach(t => {
+                document.getElementById(`master-sec-${t}`).classList.add('hidden');
+                document.getElementById(`mtab-${t}`).className = "px-3.5 py-2 rounded-xl font-bold text-slate-400 hover:bg-slate-800 whitespace-nowrap transition";
+            });
+
+            document.getElementById(`master-sec-${tab}`).classList.remove('hidden');
+            document.getElementById(`mtab-${tab}`).className = "px-3.5 py-2 rounded-xl font-bold bg-brand-600 text-white whitespace-nowrap transition";
+        }
+
+        function renderMasterUsersList() {
+            const listEl = document.getElementById('master-users-list');
+            listEl.innerHTML = `
+                <div class="bg-slate-900 p-3 rounded-2xl border border-slate-800 flex justify-between items-center text-xs">
+                    <div>
+                        <div class="font-extrabold text-white">${currentUser.name} (${currentUser.email})</div>
+                        <div class="text-[10px] text-slate-400">পয়েন্ট: ${currentUser.points} | ${currentUser.isPremium ? '<span class="text-amber-400 font-bold">প্রিমিয়াম</span>' : 'ফ্রি'}</div>
+                    </div>
+                    <div class="flex gap-1.5">
+                        <button onclick="togglePremiumUser()" class="bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2.5 py-1 rounded-xl text-[10px] font-bold">
+                            ${currentUser.isPremium ? 'ফ্রি করুন' : 'প্রিমিয়াম দিন'}
+                        </button>
+                        <button onclick="toggleBanCurrent()" class="bg-red-600/20 text-red-400 border border-red-500/30 px-2.5 py-1 rounded-xl text-[10px] font-bold">ব্যান করুন</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        function togglePremiumUser() {
+            currentUser.isPremium = !currentUser.isPremium;
+            localStorage.setItem(STORAGE_USER, JSON.stringify(currentUser));
+            if (window.firebaseReady && window.db) {
+                try { window.fbUpdate(window.fbRef(window.db, 'users/' + currentUser.uid), { isPremium: currentUser.isPremium }); } catch(e){}
+            }
+            bootMainApp(currentUser);
+            renderMasterUsersList();
+            alert(`প্রিমিয়াম স্ট্যাটাস পরিবর্তিত হয়েছে!`);
+        }
+
+        function toggleBanCurrent() {
+            currentUser.isBanned = true;
+            localStorage.setItem(STORAGE_USER, JSON.stringify(currentUser));
+            location.reload();
+        }
+
+        function publishNewQuizCategory() {
+            const title = document.getElementById('adm-quiz-title').value.trim();
+            const coins = parseInt(document.getElementById('adm-quiz-coins').value) || 10;
+            const raw = document.getElementById('adm-quiz-raw').value.trim();
+
+            if (!title || !raw) return alert('সকল ঘর পূরণ করুন');
+
+            const questions = [];
+            raw.split('\n').forEach(line => {
+                const parts = line.split('|');
+                if (parts.length >= 3) {
+                    questions.push({
+                        q: parts[0].trim(),
+                        options: parts[1].split(',').map(o => o.trim()),
+                        ans: parseInt(parts[2].trim()) || 0
+                    });
+                }
+            });
+
+            const qid = 'q_' + Date.now();
+            const quizObj = { id: qid, title, coinPerQ: coins, questions };
+
+            const quizzes = JSON.parse(localStorage.getItem(STORAGE_QUIZZES) || '[]');
+            quizzes.unshift(quizObj);
+            localStorage.setItem(STORAGE_QUIZZES, JSON.stringify(quizzes));
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbSet(window.fbRef(window.db, 'quizzes/' + qid), quizObj); } catch(e){}
+            }
+
+            alert('নতুন কুইজ ক্যাটাগরি তৈরি হয়েছে!');
+            document.getElementById('adm-quiz-title').value = '';
+            document.getElementById('adm-quiz-raw').value = '';
+            renderAdminQuizList();
+            loadQuizCategories();
+        }
+
+        function renderAdminQuizList() {
+            const quizzes = JSON.parse(localStorage.getItem(STORAGE_QUIZZES) || '[]');
+            const container = document.getElementById('admin-quiz-list');
+            container.innerHTML = '';
+            quizzes.forEach(q => {
+                container.innerHTML += `
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                        <span>${q.title} (${q.questions.length} প্রশ্ন)</span>
+                        <button onclick="deleteQuizCategory('${q.id}')" class="text-red-400 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteQuizCategory(id) {
+            let quizzes = JSON.parse(localStorage.getItem(STORAGE_QUIZZES) || '[]');
+            quizzes = quizzes.filter(q => q.id !== id);
+            localStorage.setItem(STORAGE_QUIZZES, JSON.stringify(quizzes));
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbRemove(window.fbRef(window.db, 'quizzes/' + id)); } catch(e){}
+            }
+
+            renderAdminQuizList();
+            loadQuizCategories();
+        }
+
+        function publishAdminPost() {
+            const text = document.getElementById('adm-post-text').value.trim();
+            if (!text && !selectedAdminMedia) return alert('ক্যাপশন অথবা ফাইল দিন');
+
+            const pid = 'p_' + Date.now();
+            const postObj = { id: pid, author: 'ShkscMore Admin', avatar: 'https://api.dicebear.com/7.x/bottts/svg?seed=Admin', text, media: selectedAdminMedia, time: 'এডমিন পোস্ট' };
+
+            const posts = JSON.parse(localStorage.getItem(STORAGE_POSTS) || '[]');
+            posts.unshift(postObj);
+            localStorage.setItem(STORAGE_POSTS, JSON.stringify(posts));
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbSet(window.fbRef(window.db, 'posts/' + pid), postObj); } catch(e){}
+            }
+
+            alert('পোস্ট প্রকাশ করা হয়েছে!');
+            document.getElementById('adm-post-text').value = '';
+            document.getElementById('adm-post-media-file').value = '';
+            document.getElementById('adm-file-label').innerText = 'গ্যালারি থেকে ছবি/ভিডিও আপলোড করুন';
+            selectedAdminMedia = null;
+            renderAdminFeedList();
+            loadHomeFeed();
+        }
+
+        function renderAdminFeedList() {
+            const posts = JSON.parse(localStorage.getItem(STORAGE_POSTS) || '[]');
+            const container = document.getElementById('admin-feed-manage-list');
+            container.innerHTML = '';
+            posts.forEach(p => {
+                container.innerHTML += `
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                        <span class="truncate max-w-[200px]">${p.text || 'মিডিয়া পোস্ট'}</span>
+                        <button onclick="deleteFeedPost('${p.id}')" class="text-red-400 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteFeedPost(id) {
+            let posts = JSON.parse(localStorage.getItem(STORAGE_POSTS) || '[]');
+            posts = posts.filter(p => p.id !== id);
+            localStorage.setItem(STORAGE_POSTS, JSON.stringify(posts));
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbRemove(window.fbRef(window.db, 'posts/' + id)); } catch(e){}
+            }
+
+            renderAdminFeedList();
+            loadHomeFeed();
+        }
+
+        function publishStoreItem() {
+            const title = document.getElementById('adm-store-title').value.trim();
+            const price = parseInt(document.getElementById('adm-store-price').value) || 10;
+            const text = document.getElementById('adm-store-content').value.trim();
+
+            if (!title || !text) return alert('তথ্য পূরণ করুন');
+
+            const sid = 's_' + Date.now();
+            const storeObj = { id: sid, title, price, text };
+
+            const store = JSON.parse(localStorage.getItem(STORAGE_STORE) || '[]');
+            store.unshift(storeObj);
+            localStorage.setItem(STORAGE_STORE, JSON.stringify(store));
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbSet(window.fbRef(window.db, 'store/' + sid), storeObj); } catch(e){}
+            }
+
+            alert('স্টোর আইটেম যুক্ত করা হয়েছে!');
+            document.getElementById('adm-store-title').value = '';
+            document.getElementById('adm-store-price').value = '';
+            document.getElementById('adm-store-content').value = '';
+            renderAdminStoreList();
+            loadStoreItems();
+        }
+
+        function renderAdminStoreList() {
+            const store = JSON.parse(localStorage.getItem(STORAGE_STORE) || '[]');
+            const container = document.getElementById('admin-store-manage-list');
+            container.innerHTML = '';
+            store.forEach(s => {
+                container.innerHTML += `
+                    <div class="bg-slate-950 p-2.5 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+                        <span>${s.title} (${s.price} কয়েন)</span>
+                        <button onclick="deleteStoreItem('${s.id}')" class="text-red-400 font-bold px-2 py-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteStoreItem(id) {
+            let store = JSON.parse(localStorage.getItem(STORAGE_STORE) || '[]');
+            store = store.filter(s => s.id !== id);
+            localStorage.setItem(STORAGE_STORE, JSON.stringify(store));
+
+            if (window.firebaseReady && window.db) {
+                try { window.fbRemove(window.fbRef(window.db, 'store/' + id)); } catch(e){}
+            }
+
+            renderAdminStoreList();
+            loadStoreItems();
+        }
+
+        function openPremiumModal() { document.getElementById('premium-modal').classList.remove('hidden'); }
+        function closePremiumModal() { document.getElementById('premium-modal').classList.add('hidden'); }
+        function submitPremiumPayment() {
+            const trx = document.getElementById('trx-id-input').value.trim();
+            if (!trx) return alert('Transaction ID দিন');
+            alert('পেমেন্ট রিকোয়েস্ট জমা নেওয়া হয়েছে!');
+            closePremiumModal();
+        }
+
+        function editProfileBio() {
+            const bio = prompt("নতুন বায়ো টাইপ করুন:", currentUser.bio || "");
+            if (bio !== null) {
+                currentUser.bio = bio;
+                if (window.firebaseReady && window.db) {
+                    try { window.fbUpdate(window.fbRef(window.db, 'users/' + currentUser.uid), { bio: bio }); } catch(e){}
+                }
+                localStorage.setItem(STORAGE_USER, JSON.stringify(currentUser));
+                bootMainApp(currentUser);
+            }
+        }
+    </script>
+</body>
+                              </html>
